@@ -12,17 +12,17 @@
       <h1>Miasto Marzeń</h1>
 
       <div class="controls" style="margin:8px 0 4px">
-        <button class="primary" disabled>▶️ Start nowej gry</button>
-        <button class="secondary" disabled>🎲 Rzuć kośćmi</button>
+        <button id="startBtn" class="primary" disabled>▶️ Start nowej gry</button>
+        <button id="rollBtn" class="secondary" disabled>🎲 Rzuć kośćmi</button>
       </div>
 
       <div class="dice">
         <div>
-          <div class="die">–</div>
+          <div id="dieA" class="die">–</div>
           <div class="die-label">Kość A (projekt)</div>
         </div>
         <div>
-          <div class="die">–</div>
+          <div id="dieB" class="die">–</div>
           <div class="die-label">Kość B (kolumna)</div>
         </div>
       </div>
@@ -44,19 +44,19 @@
       </div>
 
       <h2>Dziennik</h2>
-      <div class="log"></div>
+      <div id="log" class="log"></div>
     </div>
 
     <div class="card">
       <div class="board-wrap">
         <div class="topbar">
           <div class="status">
-            <span class="badge">Runda: <b>–</b> / 9</span>
-            <span class="badge">Faza: <b>–</b></span>
-            <span class="badge">Suma oczek: <b>–</b></span>
+            <span class="badge">Runda: <b id="round">–</b> / 9</span>
+            <span class="badge">Faza: <b id="phase">–</b></span>
+            <span class="badge">Suma oczek: <b id="sum">–</b></span>
           </div>
           <div class="status">
-            <span class="badge">Bonusy: 🏠 <b>✓</b> · 🌲 <b>✓</b> · 💧 <b>✓</b></span>
+            <span class="badge">Bonusy: 🏠 <b id="bHouse">✓</b> · 🌲 <b id="bForest">✓</b> · 💧 <b id="bPond">✓</b></span>
           </div>
         </div>
         <div id="grid" class="grid"></div>
@@ -65,12 +65,15 @@
       <div class="score">
         <div class="box">
           <div>Wynik łączny</div>
-          <div class="big">0</div>
+          <div class="big" id="total">0</div>
           <div class="hint"></div>
         </div>
         <div class="box">
           <div><b>Rozkład rund</b></div>
-          <table><thead><tr><th>Runda</th><th>Punkty</th></tr></thead><tbody></tbody></table>
+          <table id="roundTable">
+            <thead><tr><th>Runda</th><th>Punkty</th></tr></thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
     </div>
