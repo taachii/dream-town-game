@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miasto Marzeń — roll & write (solo)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <div class="card left">
+      <h1>Miasto Marzeń</h1>
+
+      <div class="controls" style="margin:8px 0 4px">
+        <button class="primary" disabled>▶️ Start nowej gry</button>
+        <button class="secondary" disabled>🎲 Rzuć kośćmi</button>
+      </div>
+
+      <div class="dice">
+        <div>
+          <div class="die">–</div>
+          <div class="die-label">Kość A (projekt)</div>
+        </div>
+        <div>
+          <div class="die">–</div>
+          <div class="die-label">Kość B (kolumna)</div>
+        </div>
+      </div>
+
+      <div class="hint">Czysta plansza (frontend). Logika gry pojawi się w kolejnych commitach.</div>
+
+      <div class="legend">
+        <div class="pill"><span class="dot house"></span> Dom</div>
+        <div class="pill"><span class="dot forest"></span> Las</div>
+        <div class="pill"><span class="dot pond"></span> Staw</div>
+        <div class="pill"><span class="dot plaza"></span> Plac</div>
+      </div>
+
+      <div class="panel-inline">
+        <h3>🎯 Bieżące akcje</h3>
+        <div class="next-actions">
+          <div class="nextline">—</div>
+        </div>
+      </div>
+
+      <h2>Dziennik</h2>
+      <div class="log"></div>
+    </div>
+
+    <div class="card">
+      <div class="board-wrap">
+        <div class="topbar">
+          <div class="status">
+            <span class="badge">Runda: <b>–</b> / 9</span>
+            <span class="badge">Faza: <b>–</b></span>
+            <span class="badge">Suma oczek: <b>–</b></span>
+          </div>
+          <div class="status">
+            <span class="badge">Bonusy: 🏠 <b>✓</b> · 🌲 <b>✓</b> · 💧 <b>✓</b></span>
+          </div>
+        </div>
+        <div id="grid" class="grid"></div>
+      </div>
+
+      <div class="score">
+        <div class="box">
+          <div>Wynik łączny</div>
+          <div class="big">0</div>
+          <div class="hint"></div>
+        </div>
+        <div class="box">
+          <div><b>Rozkład rund</b></div>
+          <table><thead><tr><th>Runda</th><th>Punkty</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">Silnik egzekwuje: legalne ruchy, kolejność A→B i B→A, dublety=plac, rundy bonusowe (3/6/9), punktowanie ulic, grup i premie za place na koniec.</div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
