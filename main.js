@@ -63,5 +63,5 @@
 
   renderGrid();
   // Przyciski na razie nieaktywne
-  pushLog('🧱 UI zainicjowane. Czekaj na logikę w kolejnych commitach.');
+  pushLog('Placeholder - tu będą logi dziennika');
 })();
