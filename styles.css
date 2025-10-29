@@ -1,21 +1,45 @@
 /* ==================================
    VARIABLES + BASE RESET
 ================================== */
-:root {
-  --bg: #0f1220;
-  --panel: #151935;
-  --panel-2: #0e1329;
-  --primary: #7aa2ff;
-  --accent: #6fe3c2;
-  --warn: #ff7a7a;
-  --grid: #1f2450;
-  --cell: #141a3b;
-  --cell-hover: #1a2050;
-  --text: #e6e9ff;
-  --muted: #9aa3c7;
-  --good: #9cff92;
-  --hl: rgba(111, 227, 194, 0.22);
+:root{
+  --bg:            #ecd8bd;
+  --panel:         #6a4b2f; 
+  --panel-2:       #5b4028;
+  --primary:       #e6a14a; 
+  --accent:        #ffd27a; 
+  --warn:          #d36b36; 
+  --grid:          #8a6a4a; 
+  --cell-hover:    #745232;
+  --text:          #fff3e0;
+  --muted:         #e0c7a7;
+  --good:          #8fce7c;
+  --hl:            rgba(255,210,122,.22);
+
+  --surface:       #3b2a1a;
+  --surface-2:     #2f2115; 
+  --stroke:        #6b4e33; 
+  --ink:           #2b1a0e;
+  --soft:          #f3dfc5;
+  --number:        #f1d3a4; 
 }
+
+/* pigułki legendy, badże, inline-panels */
+.pill, .badge, .panel-inline, .box, .round-cell{
+  background: var(--surface);
+  border-color: var(--stroke);
+  border: solid 1px var(--text);
+  color: var(--text);
+}
+
+.panel-inline, .badge, .pill, .choose-row + .pickType, .bonus-row .bonus-btn, .volume-wrap + .box{
+  border-color: var(--stroke);
+  border: solid 1px var(--text);
+}
+
+.status, .log, .score th, .score td, .hint, .die-label{ 
+  color: var(--muted); 
+}
+
 
 * {
   box-sizing: border-box;
@@ -30,7 +54,7 @@ body {
   margin: 0;
   display: block;
   overflow-x: hidden;
-  background: linear-gradient(180deg, var(--bg), #0a0d1a 60%);
+  background: url("img/bg-town.png") center center / cover no-repeat fixed;
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Arial;
 }
@@ -60,8 +84,8 @@ h1 {
 @media (min-height: 1800px) {.app { transform: scale(1.3); width: calc(100% / 1.3);} }
 
 .card {
-  background: linear-gradient(180deg, var(--panel), var(--panel-2));
-  border: 1px solid #1e2553;
+  background: linear-gradient(180deg,var(--panel),var(--panel-2));
+  border-color: var(--stroke);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
@@ -100,20 +124,21 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.primary {
-  background: linear-gradient(180deg, #89a6ff, var(--primary));
-  box-shadow: 0 8px 14px rgba(122, 162, 255, 0.35);
+.primary{ 
+  background: linear-gradient(180deg, #f2be74, var(--primary)); 
+  box-shadow: 0 8px 14px rgba(230,161,74,.28); 
 }
 
-.secondary {
-  background: #cfe7ff;
-  color: #091034;
+.secondary{ 
+  background: var(--soft); 
+  color: var(--ink); 
 }
 
-.ghost {
-  background: #202651;
-  color: var(--text);
-  border: 1px solid #2b3470;
+.ghost{ 
+  background: var(--surface); 
+  color: var(--text); 
+  border:1px 
+  solid var(--stroke); 
 }
 
 .controls {
@@ -156,7 +181,6 @@ button:disabled {
 .die-label {
   margin-top: 4px;
   font-size: 0.8rem;
-  color: var(--muted);
 }
 
 /* ==================================
@@ -176,8 +200,6 @@ button:disabled {
   padding: 6px 10px;
   font-size: 0.9rem;
   border-radius: 999px;
-  background: #202651;
-  border: 1px solid #2b3470;
 }
 
 .dot {
@@ -195,8 +217,6 @@ button:disabled {
    PANEL INLINE
 ================================== */
 .panel-inline {
-  background: #0c1024;
-  border: 1px solid #242b5d;
   border-radius: 12px;
   padding: 10px;
 }
@@ -204,7 +224,6 @@ button:disabled {
 .panel-inline h3 {
   margin: 0 0 0.5rem;
   font-size: 0.95rem;
-  color: #cfd7ff;
 }
 
 .next-actions {
@@ -218,7 +237,6 @@ button:disabled {
   align-items: center;
   gap: 8px;
   font-size: 0.95rem;
-  color: #cbd3ff;
 }
 
 .chip-icon-small {
@@ -252,9 +270,6 @@ button:disabled {
 .badge {
   padding: 4px 8px;
   border-radius: 8px;
-  background: #202651;
-  border: 1px solid #2b3470;
-  color: var(--text);
 }
 
 .grid {
@@ -271,9 +286,9 @@ button:disabled {
   font-size: 0.85rem;
   font-weight: 700;
   border-radius: 10px;
-  color: #cbd3ff;
-  background: #0c1024;
-  border: 1px solid #242b5d;
+  background: var(--surface-2); 
+  border-color: var(--stroke); 
+  color: var(--text);
 }
 
 /* CELL */
@@ -311,7 +326,7 @@ button:disabled {
   left: 6px;
   font-size: 0.8rem;
   font-weight: 800;
-  color: #a8b2e8;
+  color: var(--number); 
 }
 
 /* ✅ CHIP – poprawiona, lekka wersja z PNG ikonami */
@@ -352,10 +367,9 @@ button:disabled {
   overflow: auto;
   padding: 10px;
   font-size: 0.9rem;
-  color: #cfd7ff;
-  border: 1px solid #242b5d;
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--surface);
+  border: 2px solid; 
 }
 
 .log b { color: #fff; }
@@ -365,7 +379,6 @@ button:disabled {
 ================================== */
 .score {
   padding: 16px;
-  border-top: 1px solid #23295a;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
@@ -374,8 +387,6 @@ button:disabled {
 .box {
   padding: 10px;
   border-radius: 12px;
-  background: #0c1024;
-  border: 1px solid #242b5d;
 }
 
 .big {
@@ -392,10 +403,9 @@ button:disabled {
 
 .score th,
 .score td {
-  border-bottom: 1px dashed #2a3168;
   padding: 6px;
-  color: #cfd7ff;
   text-align: left;
+  border-bottom-color: var(--stroke);
 }
 
 .round-track {
@@ -406,8 +416,6 @@ button:disabled {
 }
 
 .round-cell {
-  background: #0c1024;
-  border: 1px dashed #2a3168;
   border-radius: 10px;
   height: 40px;
   display: flex;
@@ -435,7 +443,7 @@ button:disabled {
 .volume-label {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #cfd7ff;
+  color: var(--muted);
 }
 
 #volume {
@@ -471,7 +479,6 @@ button:disabled {
 .hint {
   margin-top: 2px;
   font-size: 0.9rem;
-  color: #cbd3ff;
 }
 
 /* ==================================
@@ -489,8 +496,8 @@ button:disabled {
   border-radius: 12px;
   color: #fff;
   cursor: pointer;
-  background: #1a1f46;
-  border: 1px solid #2b3470;
+  background: var(--surface);
+  border: 1px solid var(--stroke);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -508,10 +515,10 @@ button:disabled {
   box-shadow: inset 0 0 0 3px var(--hl);
 }
 
-@keyframes bonusPulse {
-  0%   { box-shadow: 0 0 0px rgba(255, 215, 102, 0.3); }
-  50%  { box-shadow: 0 0 22px rgba(255, 215, 102, 0.75); }
-  100% { box-shadow: 0 0 0px rgba(255, 215, 102, 0.3); }
+@keyframes bonusPulse{
+  0%{ box-shadow:0 0 0 rgba(255,210,122,.25); }
+  50%{ box-shadow:0 0 22px rgba(255,210,122,.7); }
+  100%{ box-shadow:0 0 0 rgba(255,210,122,.25); }
 }
 
 .bonus-bar-highlight {
@@ -544,7 +551,7 @@ button:disabled {
   padding: 16px;
   border-radius: 16px;
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
-  border: 1px solid #28306b;
+  border: 2px solid var(--stroke);
 }
 
 .choose-row {
@@ -573,9 +580,9 @@ button:disabled {
   font-size: 1rem;
   border-radius: 10px;
   cursor: pointer;
-  background: #1a1f46;
+  background: var(--surface);
   color: #fff;
-  border: 2px solid #2b3470;
+  border: 2px solid var(--stroke);
   transition: 0.2s ease;
 }
 

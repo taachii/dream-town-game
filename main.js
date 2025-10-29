@@ -132,22 +132,11 @@
     const sum=a+b;
     const row=sumToRow(sum);
     if(row===0) return 0;
-    return (state.phase==='build'||state.phase==='scoring')?row:0;
+    return (['build','scoring','bonus'].includes(state.phase)) ? row : 0;
   }
 
   // ===== RENDER GRY =====
   function renderGrid(){
-    if(state.needPlacements.length>0){
-      const req=state.needPlacements[0];
-      const allowed=allowedPositionsFor(req);
-      if(allowed.length===0){
-        pushLog('⚠️ Brak wolnego miejsca — projekt przepada.');
-        state.needPlacements.shift();
-        advanceAfterPlacement();
-        return;
-      }
-    }
-
     el.grid.innerHTML='';
     const hasReq=state.needPlacements.length>0;
     const req=hasReq?state.needPlacements[0]:null;
