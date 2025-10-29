@@ -54,6 +54,7 @@ body {
   margin: 0;
   display: block;
   overflow-x: hidden;
+  overflow-y: hidden;
   background: url("img/bg-town.png") center center / cover no-repeat fixed;
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Arial;
@@ -62,6 +63,7 @@ body {
 h1 {
   font-size: 1.25rem;
   margin: 0 0 0.25rem;
+  text-align: center;
 }
 
 /* ==================================
@@ -329,7 +331,6 @@ button:disabled {
   color: var(--number); 
 }
 
-/* ✅ CHIP – poprawiona, lekka wersja z PNG ikonami */
 .chip {
   width: 66%;
   height: 66%;
@@ -373,6 +374,11 @@ button:disabled {
 }
 
 .log b { color: #fff; }
+
+.icon-btn {
+  margin-top: auto;
+
+}
 
 /* ==================================
    SCORE PANEL
