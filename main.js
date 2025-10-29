@@ -3,7 +3,6 @@
   const TYPES={empty:0, house:1, forest:2, pond:3, plaza:4};
   const TYPE_NAME={1:'Dom',2:'Las',3:'Staw',4:'Plac'};
   const TYPE_TO_CLASS={1:'house',2:'forest',3:'pond',4:'plaza'};
-  const TYPE_EMOJI={1:'🏠',2:'🌲',3:'💧',4:'⬜'};
   const DIE_TO_TYPE=(v)=>({1:TYPES.house,2:TYPES.forest,3:TYPES.pond,4:TYPES.house,5:TYPES.forest,6:TYPES.pond}[v]);
 
   // mapa punktów (wiersz, kolumna)
@@ -44,7 +43,6 @@
     phase:document.getElementById('phase'),
     sum:document.getElementById('sum'),
     total:document.getElementById('total'),
-    table:document.getElementById('roundTable').querySelector('tbody'),
     startBtn:document.getElementById('startBtn'),
     rollBtn:document.getElementById('rollBtn'),
     dieA:document.getElementById('dieA'),
@@ -153,10 +151,15 @@
           v.className='value'; v.textContent=val; div.appendChild(v);
         }
 
-        if(cell.t!==TYPES.empty){
-          const chip=document.createElement('div');
-          chip.className='chip '+TYPE_TO_CLASS[cell.t];
-          chip.textContent=TYPE_EMOJI[cell.t];
+        if(cell.t !== TYPES.empty){
+          const chip = document.createElement('div');
+          chip.className = 'chip ' + TYPE_TO_CLASS[cell.t];
+
+          const img = document.createElement('img');
+          img.className = 'chip-img';
+          img.src = `img/${TYPE_TO_CLASS[cell.t]}.png`;
+
+          chip.appendChild(img);
           div.appendChild(chip);
         }
 
@@ -185,6 +188,16 @@
           node.classList.add('row-highlight');
         }
       });
+    }
+
+    if(state.justPlaced){
+      const { r, c } = state.justPlaced;
+      const cell = document.querySelector(`.cell[data-row="${r}"][data-col="${c}"] .chip`);
+      if(cell){
+        cell.classList.add('chip-animated');
+        setTimeout(()=>cell.classList.remove('chip-animated'), 300);
+      }
+      state.justPlaced = null;
     }
   }
 
@@ -218,6 +231,7 @@
     const need=state.needPlacements[0];
     if(!isCellAllowed(r,c)) return;
     placeAt(r,c,need.type);
+    state.justPlaced = { r, c };
 
     if(need.bonusKey){
       state.usedBonus[need.bonusKey]=true;
@@ -249,20 +263,46 @@
     }
   }
 
-  function startGame(){
-    state.started=true;
-    Object.assign(state,{
-      grid:Array.from({length:H},()=>Array.from({length:W},()=>({t:TYPES.empty})) ),
-      round:0,phase:'prep',dice:[0,0],needPlacements:[],
-      usedBonus:{house:false,forest:false,pond:false},roundPoints:[],total:0
+ function startGame(){
+    state.started = true;
+    Object.assign(state, {
+      grid: Array.from({length:H}, ()=>Array.from({length:W}, ()=>({t:TYPES.empty}))),
+      round: 0,
+      phase: 'prep',
+      dice: [0,0],
+      needPlacements: [],
+      usedBonus: {house:false, forest:false, pond:false},
+      roundPoints: [],
+      total: 0
     });
-    el.afterMsg.textContent='';
-    el.table.innerHTML=''; el.log.innerHTML='';
-    el.total.textContent='0';
-    el.dieA.textContent='–'; el.dieB.textContent='–';
-    closeRowChooser(); hideBonusBar();
-    updateHeader(); renderGrid(); updateNextLines();
-    el.rollBtn.disabled=false;
+
+    // RESET UI
+    el.afterMsg.textContent = '';
+    el.log.innerHTML = '';
+    el.total.textContent = '0';
+    el.dieA.textContent = '–';
+    el.dieB.textContent = '–';
+    closeRowChooser();
+    hideBonusBar();
+
+    // NOWY TOR PUNKTÓW: reset + utworzenie slotów 1–9
+    const rt = document.getElementById('roundTrack');
+    rt.innerHTML = '';
+    for (let i = 1; i <= 9; i++) {
+      const div = document.createElement('div');
+      div.className = 'round-cell empty';
+      div.dataset.round = i;
+      div.textContent = i; // numer rundy przed zdobyciem punktów
+      rt.appendChild(div);
+    }
+
+    updateHeader();
+    updateNextLines();
+    updatePhaseHint();
+    renderGrid();
+
+    el.rollBtn.disabled = false;
+
     rollDice();
   }
 
@@ -293,9 +333,9 @@
         break;
       case 'build':
         if(a===b)
-          html=`Dublet ${a}+${b}: ${TYPE_EMOJI[tA]} ${typeLabel(tA)} → kol. ${b}, potem ⬜ Plac w dowolnym pustym polu.`;
+          html=`Dublet ${a}+${b}: ${typeLabel(tA)} → kol. ${b}, potem Plac w dowolnym pustym polu.`;
         else
-          html=`Budowa: ${TYPE_EMOJI[tA]} ${typeLabel(tA)} → kol. ${b}, potem ${TYPE_EMOJI[tB]} ${typeLabel(tB)} → kol. ${a}.`;
+          html=`Budowa: ${typeLabel(tA)} → kol. ${b}, potem ${typeLabel(tB)} → kol. ${a}.`;
         break;
       case 'bonus':
         html='Runda bonusowa: wybierz jeden z bonusów poniżej i umieść w dowolnym pustym polu.'; break;
@@ -310,16 +350,30 @@
   }
 
   function updateNextLines(){
-    const a=state.needPlacements[0]; const b=state.needPlacements[1];
+    const a = state.needPlacements[0];
+    const b = state.needPlacements[1];
+
     if(a){
-      el.nextLine1.style.display='flex';
-      el.nextLine1.innerHTML=`Teraz: <span class="chip-mini ${TYPE_TO_CLASS[a.type]}">${TYPE_EMOJI[a.type]}</span> ${typeLabel(a.type)} ${a.any?'— dowolne pole':`→ kol. <b>${a.column}</b>`}`;
-    }else el.nextLine1.textContent='—';
+      el.nextLine1.style.display = 'flex';
+      el.nextLine1.innerHTML =
+        `Teraz: <span class="chip-mini ${TYPE_TO_CLASS[a.type]}">
+          <img class="chip-icon-small" src="img/${TYPE_TO_CLASS[a.type]}.png">
+        </span> ${typeLabel(a.type)} ${a.any ? '— dowolne pole' : `→ kol. <b>${a.column}</b>`}`;
+    } else {
+      el.nextLine1.style.display = 'none';
+    }
+
     if(b){
-      el.nextLine2.style.display='flex';
-      el.nextLine2.innerHTML=`Potem: <span class="chip-mini ${TYPE_TO_CLASS[b.type]}">${TYPE_EMOJI[b.type]}</span> ${typeLabel(b.type)} ${b.any?'— dowolne pole':`→ kol. <b>${b.column}</b>`}`;
-    }else el.nextLine2.style.display='none';
+      el.nextLine2.style.display = 'flex';
+      el.nextLine2.innerHTML =
+        `Potem: <span class="chip-mini ${TYPE_TO_CLASS[b.type]}">
+          <img class="chip-icon-small" src="img/${TYPE_TO_CLASS[b.type]}.png">
+        </span> ${typeLabel(b.type)} ${b.any ? '— dowolne pole' : `→ kol. <b>${b.column}</b>`}`;
+    } else {
+      el.nextLine2.style.display = 'none';
+    }
   }
+
 
   function rowLabel(row){
     return row===1?'3–4':row===2?'5–6':row===3?'7':row===4?'8–9':row===5?'10–11':'?';
@@ -439,8 +493,16 @@
     el.rollBtn.disabled=false;
   }
 
-  function appendRoundRow(r,pts){
-    const tr=document.createElement('tr'); tr.innerHTML=`<td>${r}</td><td>${pts}</td>`; el.table.appendChild(tr);
+  function appendRoundRow(r, pts){
+    const cell = document.querySelector(`.round-cell[data-round="${r}"]`);
+    if (!cell) return;
+
+    cell.textContent = pts;
+    cell.classList.remove('empty');
+    cell.style.transform = "scale(1.2)";
+    setTimeout(() => {
+      cell.style.transform = "";
+    }, 200);
   }
 
   function neighbors4(r,c){return [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].filter(([rr,cc])=>rr>=1&&rr<=H&&cc>=1&&cc<=W);}
@@ -494,16 +556,26 @@
   }
 
   function openBonusBar(){
-    if(!(state.round>0&&isBonusRound())){goScoring();return;}
-    state.phase='bonus';updateHeader();updatePhaseHint();updateNextLines();renderGrid();
-    el.bonusBar.style.display='block';updateBonusButtons();
+    if(!(state.round>0 && isBonusRound())){ goScoring(); return; }
+    state.phase='bonus';
+    updateHeader(); updatePhaseHint(); updateNextLines(); renderGrid();
+    
+    el.bonusBar.style.display='block';
+    updateBonusButtons();
+
+    // ⭐ podświetlenie dopóki nie wybierzesz bonusu
+    el.bonusBar.classList.add('bonus-bar-highlight');
   }
+
+
   function hideBonusBar(){el.bonusBar.style.display='none';}
+
   function updateBonusButtons(){
     el.bonusHouse.classList.toggle('used',state.usedBonus.house);
     el.bonusForest.classList.toggle('used',state.usedBonus.forest);
     el.bonusPond.classList.toggle('used',state.usedBonus.pond);
   }
+  
   function pickBonus(type){
     const key=type===TYPES.house?'house':(type===TYPES.forest?'forest':'pond');
     if(state.usedBonus[key]) return;
@@ -512,6 +584,7 @@
     el.bonusForest.classList.toggle('selected',key==='forest');
     el.bonusPond.classList.toggle('selected',key==='pond');
     renderGrid(); updateNextLines();
+    el.bonusBar.classList.remove('bonus-bar-highlight');
   }
 
   // ====== EVENTY ======

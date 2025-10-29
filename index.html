@@ -17,11 +17,11 @@
       </div>
 
       <div class="dice">
-        <div>
+        <div class="die-container">
           <div id="dieA" class="die">–</div>
           <div class="die-label">Kość A (projekt)</div>
         </div>
-        <div>
+        <div class="die-container">
           <div id="dieB" class="die">–</div>
           <div class="die-label">Kość B (kolumna)</div>
         </div>
@@ -32,10 +32,10 @@
       </div>
 
       <div class="legend">
-        <div class="pill"><span class="dot house"></span> Dom (1 lub 4)</div>
-        <div class="pill"><span class="dot forest"></span> Las (2 lub 5)</div>
-        <div class="pill"><span class="dot pond"></span> Staw (3 lub 6)</div>
-        <div class="pill"><span class="dot plaza"></span> Plac (przy dublecie)</div>
+        <div class="pill"><img class="chip-icon-small" src="img/house.png"> Dom (1 lub 4)</div>
+        <div class="pill"><img class="chip-icon-small" src="img/forest.png"> Las (2 lub 5)</div>
+        <div class="pill"><img class="chip-icon-small" src="img/pond.png"> Staw (3 lub 6)</div>
+        <div class="pill"><img class="chip-icon-small" src="img/plaza.png"> Plac (przy dublecie)</div>
       </div>
 
       <div class="panel-inline">
@@ -51,13 +51,18 @@
           </div>
           <div class="bonus-row" style="margin-top:6px">
             <button id="bonusHouse" class="bonus-btn">
-              <div class="dot house"></div><div>Dom</div>
+              <img class="chip-icon-small" src="img/house.png">
+              <div>Dom</div>
             </button>
+
             <button id="bonusForest" class="bonus-btn">
-              <div class="dot forest"></div><div>Las</div>
+              <img class="chip-icon-small" src="img/forest.png">
+              <div>Las</div>
             </button>
+
             <button id="bonusPond" class="bonus-btn">
-              <div class="dot pond"></div><div>Staw</div>
+              <img class="chip-icon-small" src="img/pond.png">
+              <div>Staw</div>
             </button>
           </div>
           <div class="hint">
@@ -79,7 +84,11 @@
             <span class="badge">Suma oczek: <b id="sum">–</b></span>
           </div>
           <div class="status">
-            <span class="badge">Bonusy: 🏠 <b id="bHouse">✓</b> · 🌲 <b id="bForest">✓</b> · 💧 <b id="bPond">✓</b></span>
+            <span class="badge">Bonusy: 
+              <img class="chip-icon-small" src="img/house.png"> <b id="bHouse">✓</b> ·
+              <img class="chip-icon-small" src="img/forest.png"> <b id="bForest">✓</b> ·
+              <img class="chip-icon-small" src="img/pond.png"> <b id="bPond">✓</b>
+            </span>
           </div>
         </div>
 
@@ -95,10 +104,9 @@
 
         <div class="box">
           <div><b>Rozkład rund</b></div>
-          <table id="roundTable">
-            <thead><tr><th>Runda</th><th>Punkty</th></tr></thead>
-            <tbody></tbody>
-          </table>
+          <div id="roundTrack" class="round-track">
+            <!-- Sloty w JS -->
+          </div>
         </div>
       </div>
     </div>
@@ -117,9 +125,15 @@
     <div class="inner">
       <h2 style="text-align:center">Wybierz dwie <b>różne</b> struktury do fazy przygotowawczej</h2>
       <div class="choices" style="display:flex; gap:8px; justify-content:center; margin-top:10px;">
-        <button class="pickType" data-type="house">🏠 Dom</button>
-        <button class="pickType" data-type="forest">🌲 Las</button>
-        <button class="pickType" data-type="pond">💧 Staw</button>
+        <button class="pickType" data-type="house">
+          <img class="chip-icon-small" src="img/house.png"> Dom
+        </button>
+        <button class="pickType" data-type="forest">
+          <img class="chip-icon-small" src="img/forest.png"> Las
+        </button>
+        <button class="pickType" data-type="pond">
+          <img class="chip-icon-small" src="img/pond.png"> Staw
+        </button>
       </div>
       <div id="prepConfirm" style="margin-top:12px; text-align:center; display:none;">
         <button id="prepOk" class="primary">OK</button>
