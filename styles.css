@@ -446,6 +446,25 @@ button:disabled {
   cursor: pointer;
 }
 
+.badge--volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.volume-label { 
+  margin: 0; 
+  line-height: 1; 
+  display: inline-flex; 
+  align-items: center; 
+}
+
+.badge--volume input[type="range"] {
+  margin: 0;
+  vertical-align: middle;
+  width: 140px; /* możesz zostawić swoje 140px */
+}
+
 /* ==================================
    HINT
 ================================== */

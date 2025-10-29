@@ -90,6 +90,11 @@
     prepChoice:document.getElementById('prepChoice'),
     prepConfirm:document.getElementById('prepConfirm'),
     prepOk:document.getElementById('prepOk'),
+    summaryModal: document.getElementById('summaryModal'),
+    summaryTotal: document.getElementById('summaryTotal'),
+    summaryTier: document.getElementById('summaryTier'),
+    summaryClose: document.getElementById('summaryClose'),
+    summaryAgain: document.getElementById('summaryAgain'),
   };
 
   // ====== FUNKCJE POMOCNICZE ======
@@ -532,7 +537,9 @@
       state.total+=bonus; el.total.textContent=state.total;
       el.afterMsg.textContent=`Premia za place: +${bonus} pkt. WYNIK KOŃCOWY: ${state.total} pkt.`;
       pushLog(`🏁 Koniec gry. Place: +${bonus} pkt.`);
-      state.phase='finished'; updatePhaseHint(); el.rollBtn.disabled=true; return;
+      state.phase='finished'; updatePhaseHint(); el.rollBtn.disabled=true;
+      openSummaryModal(state.total);
+      return;
     }
 
     state.round=state.round===0?1:state.round+1;
@@ -604,6 +611,25 @@
     return pts;
   }
 
+  // ====== PODSUMOWANIE GRY ======
+  function tierFor(score) {
+    if (score <= 60) return 'Zarządca chodników';
+    if (score <= 75) return 'Władca rond i placów zabaw';
+    if (score <= 90) return 'Szef wszystkiego po trochu';
+    return 'Wizjoner metropolii';
+  }
+
+  function openSummaryModal(total) {
+    el.summaryTotal.textContent = total;
+    el.summaryTier.textContent = tierFor(total);
+    el.summaryModal.style.display = 'flex';
+  }
+
+  function closeSummaryModal() {
+    el.summaryModal.style.display = 'none';
+  }
+
+
   function openBonusBar(){
     if(!(state.round>0 && isBonusRound())){ goScoring(); return; }
     state.phase='bonus';
@@ -642,6 +668,11 @@
   el.bonusHouse.addEventListener('click',()=>pickBonus(TYPES.house));
   el.bonusForest.addEventListener('click',()=>pickBonus(TYPES.forest));
   el.bonusPond.addEventListener('click',()=>pickBonus(TYPES.pond));
+  el.summaryClose.addEventListener('click', closeSummaryModal);
+  el.summaryAgain.addEventListener('click', () => {
+    closeSummaryModal();
+    el.startBtn.click(); // używa istniejącego mechanizmu restartu
+  });
   window.closeRowChooser=closeRowChooser;
 
   renderGrid(); updateHeader(); updatePhaseHint(); updateNextLines();
