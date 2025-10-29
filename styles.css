@@ -33,12 +33,14 @@ h1 {
 
 /* ======== LAYOUT ======== */
 .app {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 16px;
+  flex: 1 0 auto;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px;
   display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 16px;
+  grid-template-columns: minmax(340px, 420px) 1fr;
+  gap: 20px;
 }
 
 .card {
@@ -102,6 +104,41 @@ button:hover:not(:disabled) {
   transform: translateY(-1px);
 }
 
+/* ======== KOŚCI (wyśrodkowane) ======== */
+.dice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin: 10px 0 12px 0;
+}
+
+.dice > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.die {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: #fff;
+  color: #0f1220;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 900;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.die-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 4px;
+}
+
 /* ======== LEGEND ======== */
 .legend {
   display: flex;
@@ -127,21 +164,10 @@ button:hover:not(:disabled) {
   border-radius: 4px;
 }
 
-.dot.house {
-  background: #ffd36b;
-}
-
-.dot.forest {
-  background: #7fdc7f;
-}
-
-.dot.pond {
-  background: #6ecbff;
-}
-
-.dot.plaza {
-  background: #a78bfa;
-}
+.dot.house { background: #ffd36b; }
+.dot.forest { background: #7fdc7f; }
+.dot.pond { background: #6ecbff; }
+.dot.plaza { background: #a78bfa; }
 
 /* ======== PANEL INLINE ======== */
 .panel-inline {
@@ -184,10 +210,13 @@ button:hover:not(:disabled) {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+.chip-mini.house { background: #ffd36b; }
+.chip-mini.forest { background: #7fdc7f; }
+.chip-mini.pond { background: #6ecbff; }
+.chip-mini.plaza { background: #a78bfa; }
+
 /* ======== BOARD ======== */
-.board-wrap {
-  padding: 16px;
-}
+.board-wrap { padding: 16px; }
 
 .topbar {
   display: flex;
@@ -232,10 +261,7 @@ button:hover:not(:disabled) {
   font-weight: 700;
 }
 
-.rowhdr .small {
-  opacity: 0.9;
-  font-weight: 600;
-}
+.rowhdr .small { opacity: 0.9; font-weight: 600; }
 
 .cell {
   position: relative;
@@ -246,7 +272,21 @@ button:hover:not(:disabled) {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.15s, box-shadow 0.15s, outline 0.15s;
 }
+
+.cell.allowed {
+  cursor: pointer;
+  outline: 2px solid var(--accent);
+  box-shadow: 0 0 0 4px var(--hl) inset;
+}
+
+.cell.forbidden {
+  filter: saturate(0.7);
+  opacity: 0.5;
+}
+
+.cell:hover.allowed { background: var(--cell-hover); }
 
 .cell .value {
   position: absolute;
@@ -257,40 +297,25 @@ button:hover:not(:disabled) {
   color: #a8b2e8;
 }
 
-/* ======== DICE ======== */
-.dice {
+/* CHIPS */
+.cell .chip {
+  width: 66%;
+  height: 66%;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  gap: 24px;
-  margin: 10px 0 12px 0;
-}
-
-.dice > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.die {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  background: #fff;
-  color: #0f1220;
-  display: grid;
-  place-items: center;
-  font-size: 24px;
   font-weight: 900;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  color: #0f1220;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
-.die-label {
-  font-size: 0.8rem;
-  color: var(--muted);
-  text-align: center;
-  margin-top: 4px;
-}
+.chip.house { background: #ffd36b; }
+.chip.forest { background: #7fdc7f; }
+.chip.pond { background: #6ecbff; }
+.chip.plaza { background: #a78bfa; }
 
 /* ======== LOG ======== */
 .log {
@@ -304,9 +329,7 @@ button:hover:not(:disabled) {
   font-size: 0.9rem;
 }
 
-.log b {
-  color: #fff;
-}
+.log b { color: #fff; }
 
 /* ======== SCORE ======== */
 .score {
@@ -344,47 +367,80 @@ button:hover:not(:disabled) {
   text-align: left;
 }
 
-/* ======== MISC ======== */
-.hint {
-  margin-top: 2px;
-  color: #cbd3ff;
-  font-size: 0.9rem;
-}
+/* ======== HINT & FOOTER ======== */
+.hint { margin-top: 2px; color: #cbd3ff; font-size: 0.9rem; }
 
 .footer {
-  grid-column: 1 / -1;
+  flex-shrink: 0;
+  background: #0a0d1a;
   color: #93a0d9;
   text-align: center;
   font-size: 0.85rem;
-  padding: 10px;
+  padding: 12px 10px;
+  border-top: 1px solid #1b2045;
+  margin-top: auto;
 }
 
-/* ======== CHIPS & ALLOWED ======== */
-.cell .chip {
-  width: 66%;
-  height: 66%;
-  border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+/* ======== BONUS PANEL ======== */
+.bonus-row { display: flex; gap: 8px; }
+
+.bonus-btn {
   display: flex;
+  flex-direction: column;
+  gap: 4px;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  color: #0f1220;
-  letter-spacing: 0.5px;
-  box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.35);
-}
-
-.chip.house  { background: #ffd36b; }
-.chip.forest { background: #7fdc7f; }
-.chip.pond   { background: #6ecbff; }
-.chip.plaza  { background: #a78bfa; }
-
-.cell.allowed {
+  border: 1px solid #2b3470;
+  background: #1a1f46;
+  color: #fff;
+  border-radius: 12px;
+  padding: 10px 12px;
   cursor: pointer;
-  outline: 2px solid var(--accent);
-  box-shadow: 0 0 0 4px var(--hl) inset;
+  min-width: 86px;
 }
 
-.cell.allowed:hover {
-  background: var(--cell-hover);
+.bonus-btn.used {
+  opacity: 0.45;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+.bonus-btn.selected {
+  outline: 2px solid var(--accent);
+  box-shadow: 0 0 0 3px var(--hl) inset;
+}
+
+/* ======== MODAL ======== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
+.modal .inner {
+  width: min(560px, 92vw);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid #28306b;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.choose-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.choose-row button {
+  background: #d7f7ef;
+  color: #031621;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
 }

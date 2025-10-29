@@ -16,6 +16,7 @@
         <button id="rollBtn" class="secondary" disabled>🎲 Rzuć kośćmi</button>
       </div>
 
+      <!-- tylko kości wyśrodkowane -->
       <div class="dice">
         <div>
           <div id="dieA" class="die">–</div>
@@ -27,7 +28,9 @@
         </div>
       </div>
 
-      <div id="phaseHint" class="hint">Kliknij „Start nowej gry”.</div>
+      <div id="phaseHint" class="hint">
+        Kliknij „Start nowej gry”
+      </div>
 
       <div class="legend">
         <div class="pill"><span class="dot house"></span> Dom (1 lub 4)</div>
@@ -38,8 +41,29 @@
 
       <div class="panel-inline">
         <h3>🎯 Bieżące akcje</h3>
-        <div class="next-actions">
-          <div class="nextline">—</div>
+        <div id="nextActions" class="next-actions">
+          <div class="nextline" id="nextLine1">—</div>
+          <div class="nextline" id="nextLine2" style="display:none">—</div>
+        </div>
+
+        <div id="bonusBar" style="margin-top:10px;display:none">
+          <div class="nextline">
+            Runda bonusowa: wybierz jedną strukturę i umieść w dowolnym miejscu
+          </div>
+          <div class="bonus-row" style="margin-top:6px">
+            <button id="bonusHouse" class="bonus-btn">
+              <div class="dot house"></div><div>Dom</div>
+            </button>
+            <button id="bonusForest" class="bonus-btn">
+              <div class="dot forest"></div><div>Las</div>
+            </button>
+            <button id="bonusPond" class="bonus-btn">
+              <div class="dot pond"></div><div>Staw</div>
+            </button>
+          </div>
+          <div class="hint">
+            Każdego rodzaju bonus użyjesz <b>tylko raz</b> w całej grze.
+          </div>
         </div>
       </div>
 
@@ -59,6 +83,7 @@
             <span class="badge">Bonusy: 🏠 <b id="bHouse">✓</b> · 🌲 <b id="bForest">✓</b> · 💧 <b id="bPond">✓</b></span>
           </div>
         </div>
+
         <div id="grid" class="grid"></div>
       </div>
 
@@ -66,8 +91,9 @@
         <div class="box">
           <div>Wynik łączny</div>
           <div class="big" id="total">0</div>
-          <div class="hint"></div>
+          <div id="afterMsg" class="hint"></div>
         </div>
+
         <div class="box">
           <div><b>Rozkład rund</b></div>
           <table id="roundTable">
@@ -78,7 +104,17 @@
       </div>
     </div>
 
-    <div class="footer">Silnik egzekwuje: legalne ruchy, kolejność A→B i B→A, dublety=plac, rundy bonusowe (3/6/9), punktowanie ulic, grup i premie za place na koniec.</div>
+    <div class="footer">
+      Silnik egzekwuje: legalne ruchy, kolejność A→B i B→A, dublety=plac, rundy bonusowe (3/6/9),
+      punktowanie ulic, grup i premie za place na koniec.
+    </div>
+  </div>
+
+  <div id="rowModal" class="modal" role="dialog" aria-modal="true">
+    <div class="inner">
+      <h2>Wybierz ulicę do punktacji (suma 2 lub 12)</h2>
+      <div class="choose-row" id="chooseRow"></div>
+    </div>
   </div>
 
   <script src="main.js"></script>
