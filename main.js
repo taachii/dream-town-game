@@ -14,6 +14,33 @@
     '5,1':3,'5,3':2,'5,4':2,'5,6':3
   };
 
+ // ====== AUDIO ======
+  const audio = {
+    house:  new Audio("audio/house.mp3"),
+    forest: new Audio("audio/forest.mp3"),
+    pond:   new Audio("audio/pond.mp3"),
+    plaza:  new Audio("audio/plaza.mp3"),
+  };
+
+  // pobieramy suwak z DOM
+  const volumeSlider = document.getElementById("volume");
+
+  // Funkcja ustawiająca głośność na wszystkich efektach
+  function applyVolume(v) {
+    audio.house.volume  = v;
+    audio.forest.volume = v;
+    audio.pond.volume   = v;
+    audio.plaza.volume  = v;
+  }
+
+  // Event zmiany głośności w UI
+  volumeSlider.addEventListener("input", () => {
+    applyVolume(parseFloat(volumeSlider.value));
+  });
+
+  // Inicjalne ustawienie
+  applyVolume(parseFloat(volumeSlider.value));
+
   function sumToRow(sum){
     if(sum===2||sum===12) return 0;
     if(sum===3||sum===4) return 1;
@@ -163,10 +190,19 @@
           div.appendChild(chip);
         }
 
-        if(hasReq && isCellAllowed(r,c)){
+        if (hasReq && isCellAllowed(r,c)) {
           div.classList.add('allowed');
+
+          // ⭐ dynamiczny kursor zależny od typu struktury
+          const type = req.type;
+          if (type) {
+            const cls = "cursor-" + TYPE_TO_CLASS[type];
+            div.classList.add(cls);
+          }
+
           div.addEventListener('click',()=>onCellClick(r,c));
-        } else if(hasReq){
+
+        } else if (hasReq) {
           div.classList.add('forbidden');
         }
 
@@ -232,6 +268,11 @@
     if(!isCellAllowed(r,c)) return;
     placeAt(r,c,need.type);
     state.justPlaced = { r, c };
+    const soundKey = TYPE_TO_CLASS[need.type];
+    if (audio[soundKey]) {
+      audio[soundKey].currentTime = 0;
+      audio[soundKey].play().catch(()=>{});
+    }
 
     if(need.bonusKey){
       state.usedBonus[need.bonusKey]=true;
@@ -400,6 +441,14 @@
       pushLog(`🔨 Runda ${state.round}: rzut ${a} & ${b}.`);
       el.rollBtn.disabled=true;
     }
+    el.dieA.classList.add('rolling');
+    el.dieB.classList.add('rolling');
+
+    setTimeout(() => {
+      el.dieA.classList.remove('rolling');
+      el.dieB.classList.remove('rolling');
+    }, 350);
+
     updateHeader(); updatePhaseHint(); updateNextLines(); renderGrid();
   }
 

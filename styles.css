@@ -423,6 +423,29 @@ button:disabled {
   opacity: 0.7;
 }
 
+/* 🔊 UI Audio slider — w panelu wyniku */
+.volume-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.volume-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #cfd7ff;
+}
+
+#volume {
+  width: 140px;
+}
+
+#volume::-webkit-slider-thumb {
+  cursor: pointer;
+}
+
 /* ==================================
    HINT
 ================================== */
@@ -512,12 +535,14 @@ button:disabled {
   margin-top: 8px;
 }
 
-.choose-row button {
-  padding: 8px 10px;
-  border-radius: 10px;
-  background: #d7f7ef;
-  color: #031621;
-  cursor: pointer;
+.choose-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; 
+  gap: 8px;
+  margin-top: 12px;
+  text-align: center; 
 }
 
 /* ==================================
@@ -555,4 +580,37 @@ button:disabled {
   outline: 2px solid var(--accent);
   animation: rowFlash 0.9s ease-out;
   transition: background 0.4s ease;
+}
+
+/* Dynamiczny kursor budowania */
+.cell.allowed[data-cursor] {
+  cursor: url("img/default.png"), pointer; /* fallback */
+}
+
+.cell.allowed.cursor-house {
+  cursor: url("img/house.png") 16 16, pointer;
+}
+
+.cell.allowed.cursor-forest {
+  cursor: url("img/forest.png") 16 16, pointer;
+}
+
+.cell.allowed.cursor-pond {
+  cursor: url("img/pond.png") 16 16, pointer;
+}
+
+.cell.allowed.cursor-plaza {
+  cursor: url("img/plaza.png") 16 16, pointer;
+}
+
+@keyframes diceRoll {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(10deg) scale(1.1); }
+  50%  { transform: rotate(-10deg) scale(1.1); }
+  75%  { transform: rotate(10deg) scale(1.15); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.die.rolling {
+  animation: diceRoll 0.35s ease-out;
 }
