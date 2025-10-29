@@ -1,3 +1,6 @@
+/* ==================================
+   VARIABLES + BASE RESET
+================================== */
 :root {
   --bg: #0f1220;
   --panel: #151935;
@@ -14,13 +17,19 @@
   --hl: rgba(111, 227, 194, 0.22);
 }
 
-/* ======== RESET & BASE ======== */
 * {
   box-sizing: border-box;
 }
 
+html, body {
+  height: auto;
+  min-height: 100%;
+}
+
 body {
   margin: 0;
+  display: block;
+  overflow-x: hidden; /* dodatkowa ochrona przed poziomowym przewijaniem */
   background: linear-gradient(180deg, var(--bg), #0a0d1a 60%);
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Arial;
@@ -28,12 +37,14 @@ body {
 
 h1 {
   font-size: 1.25rem;
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.25rem;
 }
 
-/* ======== LAYOUT ======== */
+/* ==================================
+   LAYOUT + CONTAINERS
+================================== */
 .app {
-  flex: 1 0 auto;
+  flex: 1;
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
@@ -41,6 +52,9 @@ h1 {
   display: grid;
   grid-template-columns: minmax(340px, 420px) 1fr;
   gap: 20px;
+  transform: scale(0.95);
+  transform-origin: top center;
+  width: calc(100% / 0.95);
 }
 
 .card {
@@ -52,7 +66,7 @@ h1 {
 
 .card h2 {
   font-size: 1.05rem;
-  margin: 0 0 0.6rem 0;
+  margin: 0 0 0.6rem;
 }
 
 .left {
@@ -62,37 +76,21 @@ h1 {
   gap: 12px;
 }
 
-/* ======== BUTTONS ======== */
-.controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
+/* ==================================
+   BUTTONS
+================================== */
 button {
   border: none;
   border-radius: 12px;
   padding: 10px 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.15s background, 0.15s transform, color 0.15s;
   color: #0d1025;
+  transition: 0.15s;
 }
 
-button.primary {
-  background: linear-gradient(180deg, #89a6ff, var(--primary));
-  box-shadow: 0 8px 14px rgba(122, 162, 255, 0.35);
-}
-
-button.secondary {
-  background: #cfe7ff;
-  color: #091034;
-}
-
-button.ghost {
-  background: #202651;
-  color: var(--text);
-  border: 1px solid #2b3470;
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
 }
 
 button:disabled {
@@ -100,23 +98,38 @@ button:disabled {
   cursor: not-allowed;
 }
 
-button:hover:not(:disabled) {
-  transform: translateY(-1px);
+.primary {
+  background: linear-gradient(180deg, #89a6ff, var(--primary));
+  box-shadow: 0 8px 14px rgba(122, 162, 255, 0.35);
 }
 
-/* ======== KOŚCI (wyśrodkowane) ======== */
+.secondary {
+  background: #cfe7ff;
+  color: #091034;
+}
+
+.ghost {
+  background: #202651;
+  color: var(--text);
+  border: 1px solid #2b3470;
+}
+
+/* Layout buttonów */
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ==================================
+   DICE
+================================== */
 .dice {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 24px;
-  margin: 10px 0 12px 0;
-}
-
-.dice > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 10px 0 12px;
 }
 
 .die {
@@ -133,13 +146,14 @@ button:hover:not(:disabled) {
 }
 
 .die-label {
+  margin-top: 4px;
   font-size: 0.8rem;
   color: var(--muted);
-  text-align: center;
-  margin-top: 4px;
 }
 
-/* ======== LEGEND ======== */
+/* ==================================
+   LEGEND
+================================== */
 .legend {
   display: flex;
   gap: 10px;
@@ -151,25 +165,28 @@ button:hover:not(:disabled) {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #202651;
-  border: 1px solid #2b3470;
-  border-radius: 999px;
   padding: 6px 10px;
   font-size: 0.9rem;
+  border-radius: 999px;
+  background: #202651;
+  border: 1px solid #2b3470;
 }
 
+/* Shared icon dots */
 .dot {
   width: 14px;
   height: 14px;
   border-radius: 4px;
 }
 
-.dot.house { background: #ffd36b; }
+.dot.house  { background: #ffd36b; }
 .dot.forest { background: #7fdc7f; }
-.dot.pond { background: #6ecbff; }
-.dot.plaza { background: #a78bfa; }
+.dot.pond   { background: #6ecbff; }
+.dot.plaza  { background: #a78bfa; }
 
-/* ======== PANEL INLINE ======== */
+/* ==================================
+   PANEL INLINE
+================================== */
 .panel-inline {
   background: #0c1024;
   border: 1px solid #242b5d;
@@ -197,31 +214,34 @@ button:hover:not(:disabled) {
   color: #cbd3ff;
 }
 
+/* Small structure chips */
 .chip-mini {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   min-width: 28px;
   height: 24px;
   padding: 0 6px;
   border-radius: 8px;
   font-weight: 800;
   color: #0f1220;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.chip-mini.house { background: #ffd36b; }
+.chip-mini.house  { background: #ffd36b; }
 .chip-mini.forest { background: #7fdc7f; }
-.chip-mini.pond { background: #6ecbff; }
-.chip-mini.plaza { background: #a78bfa; }
+.chip-mini.pond   { background: #6ecbff; }
+.chip-mini.plaza  { background: #a78bfa; }
 
-/* ======== BOARD ======== */
+/* ==================================
+   GRID / BOARD
+================================== */
 .board-wrap { padding: 16px; }
 
 .topbar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
 }
 
@@ -233,15 +253,15 @@ button:hover:not(:disabled) {
   color: var(--muted);
 }
 
-.status .badge {
+.badge {
+  padding: 4px 8px;
+  border-radius: 8px;
   background: #202651;
   border: 1px solid #2b3470;
   color: var(--text);
-  padding: 4px 8px;
-  border-radius: 8px;
 }
 
-/* ======== GRID ======== */
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: 44px repeat(6, 1fr);
@@ -251,87 +271,98 @@ button:hover:not(:disabled) {
 
 .hdr {
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: #0c1024;
-  border: 1px solid #242b5d;
-  border-radius: 10px;
-  color: #cbd3ff;
+  align-items: center;
   font-size: 0.85rem;
   font-weight: 700;
+  border-radius: 10px;
+  color: #cbd3ff;
+  background: #0c1024;
+  border: 1px solid #242b5d;
 }
 
-.rowhdr .small { opacity: 0.9; font-weight: 600; }
+.rowhdr .small {
+  opacity: 0.9;
+  font-weight: 600;
+}
 
+/* CELL */
 .cell {
-  position: relative;
   aspect-ratio: 1;
-  border-radius: 12px;
-  background: var(--cell);
-  border: 1px solid var(--grid);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s, box-shadow 0.15s, outline 0.15s;
+  background: var(--cell);
+  border-radius: 12px;
+  border: 1px solid var(--grid);
+  transition: 0.15s;
+  position: relative;
 }
 
 .cell.allowed {
   cursor: pointer;
   outline: 2px solid var(--accent);
-  box-shadow: 0 0 0 4px var(--hl) inset;
+  box-shadow: inset 0 0 0 4px var(--hl);
+}
+
+.cell:hover.allowed {
+  background: var(--cell-hover);
 }
 
 .cell.forbidden {
-  filter: saturate(0.7);
   opacity: 0.5;
+  filter: saturate(0.7);
 }
 
-.cell:hover.allowed { background: var(--cell-hover); }
-
-.cell .value {
+/* CELL CONTENT */
+.value {
   position: absolute;
   top: 6px;
   left: 6px;
-  font-weight: 800;
   font-size: 0.8rem;
+  font-weight: 800;
   color: #a8b2e8;
 }
 
-/* CHIPS */
-.cell .chip {
+.chip {
   width: 66%;
   height: 66%;
   border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 900;
-  color: #0f1220;
   letter-spacing: 0.5px;
-  box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0f1220;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.35),
+              0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
-.chip.house { background: #ffd36b; }
+.chip.house  { background: #ffd36b; }
 .chip.forest { background: #7fdc7f; }
-.chip.pond { background: #6ecbff; }
-.chip.plaza { background: #a78bfa; }
+.chip.pond   { background: #6ecbff; }
+.chip.plaza  { background: #a78bfa; }
 
-/* ======== LOG ======== */
+/* ==================================
+   LOG
+================================== */
 .log {
   max-height: 190px;
   overflow: auto;
-  background: rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  font-size: 0.9rem;
+  color: #cfd7ff;
   border: 1px solid #242b5d;
   border-radius: 12px;
-  padding: 10px;
-  color: #cfd7ff;
-  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.15);
 }
 
 .log b { color: #fff; }
 
-/* ======== SCORE ======== */
+/* ==================================
+   SCORE PANEL
+================================== */
 .score {
   padding: 16px;
   border-top: 1px solid #23295a;
@@ -340,14 +371,14 @@ button:hover:not(:disabled) {
   gap: 16px;
 }
 
-.score .box {
+.box {
+  padding: 10px;
+  border-radius: 12px;
   background: #0c1024;
   border: 1px solid #242b5d;
-  border-radius: 12px;
-  padding: 10px;
 }
 
-.score .big {
+.big {
   font-size: 2rem;
   font-weight: 900;
   color: #fff;
@@ -355,8 +386,8 @@ button:hover:not(:disabled) {
 
 .score table {
   width: 100%;
-  border-collapse: collapse;
   font-size: 0.9rem;
+  border-collapse: collapse;
 }
 
 .score th,
@@ -367,36 +398,35 @@ button:hover:not(:disabled) {
   text-align: left;
 }
 
-/* ======== HINT & FOOTER ======== */
-.hint { margin-top: 2px; color: #cbd3ff; font-size: 0.9rem; }
-
-.footer {
-  flex-shrink: 0;
-  background: #0a0d1a;
-  color: #93a0d9;
-  text-align: center;
-  font-size: 0.85rem;
-  padding: 12px 10px;
-  border-top: 1px solid #1b2045;
-  margin-top: auto;
+/* ==================================
+   HINT
+================================== */
+.hint {
+  margin-top: 2px;
+  font-size: 0.9rem;
+  color: #cbd3ff;
 }
 
-/* ======== BONUS PANEL ======== */
-.bonus-row { display: flex; gap: 8px; }
+/* ==================================
+   BONUS BUTTONS
+================================== */
+.bonus-row {
+  display: flex;
+  gap: 8px;
+}
 
 .bonus-btn {
+  min-width: 86px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  background: #1a1f46;
+  border: 1px solid #2b3470;
   display: flex;
   flex-direction: column;
   gap: 4px;
   align-items: center;
-  justify-content: center;
-  border: 1px solid #2b3470;
-  background: #1a1f46;
-  color: #fff;
-  border-radius: 12px;
-  padding: 10px 12px;
-  cursor: pointer;
-  min-width: 86px;
 }
 
 .bonus-btn.used {
@@ -407,64 +437,78 @@ button:hover:not(:disabled) {
 
 .bonus-btn.selected {
   outline: 2px solid var(--accent);
-  box-shadow: 0 0 0 3px var(--hl) inset;
+  box-shadow: inset 0 0 0 3px var(--hl);
 }
 
-/* ======== MODAL ======== */
+/* ==================================
+   MODALS
+================================== */
 .modal {
   display: none;
   position: fixed;
   inset: 0;
+  z-index: 20;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 20;
+  background: rgba(0,0,0,0.5);
 }
 
 .modal .inner {
-  width: min(560px, 92vw);
+  width: min(560px,92vw);
+  padding: 16px;
+  border-radius: 16px;
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid #28306b;
-  border-radius: 16px;
-  padding: 16px;
 }
 
 .choose-row {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 8px;
   margin-top: 8px;
 }
 
 .choose-row button {
+  padding: 8px 10px;
+  border-radius: 10px;
   background: #d7f7ef;
   color: #031621;
-  border: none;
-  border-radius: 10px;
-  padding: 8px 10px;
   cursor: pointer;
 }
 
-/* ======== WYBÓR STRUKTUR (FAZA PRZYGOTOWAWCZA) ======== */
+/* ==================================
+   PREP STRUCTURES
+================================== */
 .pickType {
-  background: #1a1f46;
-  color: #fff;
-  border: 2px solid #2b3470;
-  border-radius: 10px;
   padding: 10px 18px;
   font-weight: 600;
   font-size: 1rem;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  background: #1a1f46;
+  color: #fff;
+  border: 2px solid #2b3470;
+  transition: 0.2s ease;
 }
 
-.pickType:hover {
-  border-color: var(--accent);
-  transform: translateY(-1px);
-}
-
+.pickType:hover,
 .pickType.selected {
   border-color: var(--accent);
   background: rgba(111, 227, 194, 0.15);
   box-shadow: 0 0 10px var(--hl);
+}
+
+/* ==================================
+   ROW FLASH ANIMATION
+================================== */
+@keyframes rowFlash {
+  0%   { box-shadow: 0 0 0 var(--hl); background: rgba(111,227,194,0.05); }
+  40%  { box-shadow: 0 0 20px var(--hl); background: rgba(111,227,194,0.25); }
+  100% { box-shadow: 0 0 0 var(--hl); background: rgba(111,227,194,0.12); }
+}
+
+.row-highlight {
+  outline: 2px solid var(--accent);
+  animation: rowFlash 0.9s ease-out;
+  transition: background 0.4s ease;
 }
