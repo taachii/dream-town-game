@@ -444,3 +444,27 @@ button:hover:not(:disabled) {
   padding: 8px 10px;
   cursor: pointer;
 }
+
+/* ======== WYBÓR STRUKTUR (FAZA PRZYGOTOWAWCZA) ======== */
+.pickType {
+  background: #1a1f46;
+  color: #fff;
+  border: 2px solid #2b3470;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pickType:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.pickType.selected {
+  border-color: var(--accent);
+  background: rgba(111, 227, 194, 0.15);
+  box-shadow: 0 0 10px var(--hl);
+}

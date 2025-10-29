@@ -16,7 +16,6 @@
         <button id="rollBtn" class="secondary" disabled>🎲 Rzuć kośćmi</button>
       </div>
 
-      <!-- tylko kości wyśrodkowane -->
       <div class="dice">
         <div>
           <div id="dieA" class="die">–</div>
@@ -110,10 +109,26 @@
     </div>
   </div>
 
+  <!-- Modal wyboru ulicy (suma 2 lub 12) -->
   <div id="rowModal" class="modal" role="dialog" aria-modal="true">
     <div class="inner">
       <h2>Wybierz ulicę do punktacji (suma 2 lub 12)</h2>
       <div class="choose-row" id="chooseRow"></div>
+    </div>
+  </div>
+
+  <!-- Modal do fazy przygotowawczej -->
+  <div id="prepChoice" class="modal" role="dialog" aria-modal="true" style="display:none;">
+    <div class="inner">
+      <h2 style="text-align:center">Wybierz dwie <b>różne</b> struktury do fazy przygotowawczej</h2>
+      <div class="choices" style="display:flex; gap:8px; justify-content:center; margin-top:10px;">
+        <button class="pickType" data-type="house">🏠 Dom</button>
+        <button class="pickType" data-type="forest">🌲 Las</button>
+        <button class="pickType" data-type="pond">💧 Staw</button>
+      </div>
+      <div id="prepConfirm" style="margin-top:12px; text-align:center; display:none;">
+        <button id="prepOk" class="primary">OK</button>
+      </div>
     </div>
   </div>
 
