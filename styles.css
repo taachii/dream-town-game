@@ -26,14 +26,12 @@
 /* pigułki legendy, badże, inline-panels */
 .pill, .badge, .panel-inline, .box, .round-cell{
   background: var(--surface);
-  border-color: var(--stroke);
-  border: solid 1px var(--text);
+  border: 1px solid var(--stroke);
   color: var(--text);
 }
 
-.panel-inline, .badge, .pill, .choose-row + .pickType, .bonus-row .bonus-btn, .volume-wrap + .box{
-  border-color: var(--stroke);
-  border: solid 1px var(--text);
+.choose-row + .pickType {
+  border: 1px solid var(--stroke);
 }
 
 .status, .log, .score th, .score td, .hint, .die-label{ 
@@ -266,7 +264,6 @@ button:disabled {
   gap: 10px;
   align-items: center;
   font-size: 0.95rem;
-  color: var(--muted);
 }
 
 .badge {
@@ -450,6 +447,10 @@ button:disabled {
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--muted);
+  margin: 0;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
 
 #volume {
@@ -464,13 +465,6 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.volume-label { 
-  margin: 0; 
-  line-height: 1; 
-  display: inline-flex; 
-  align-items: center; 
 }
 
 .badge--volume input[type="range"] {
@@ -558,13 +552,6 @@ button:disabled {
   border-radius: 16px;
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 2px solid var(--stroke);
-}
-
-.choose-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
 }
 
 .choose-row {

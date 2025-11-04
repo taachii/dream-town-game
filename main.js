@@ -187,7 +187,7 @@
         if (hasReq && isCellAllowed(r,c)) {
           div.classList.add('allowed');
 
-          // ⭐ dynamiczny kursor zależny od typu struktury
+          // dynamiczny kursor zależny od typu struktury
           const type = req.type;
           if (type) {
             const cls = "cursor-" + TYPE_TO_CLASS[type];
@@ -219,26 +219,6 @@
         }
       });
     }
-
-    if(state.justPlaced){
-      const { r, c } = state.justPlaced;
-      const cell = document.querySelector(`.cell[data-row="${r}"][data-col="${c}"] .chip`);
-      if(cell){
-        cell.classList.add('chip-animated');
-        setTimeout(()=>cell.classList.remove('chip-animated'), 300);
-      }
-      state.justPlaced = null;
-    }
-  }
-
-  function allowedPositionsFor(need){
-    const out=[];
-    for(let r=1;r<=H;r++){
-      for(let c=1;c<=W;c++){
-        if(isCellAllowedWith(need,r,c)) out.push([r,c]);
-      }
-    }
-    return out;
   }
 
   function isCellAllowed(r,c){
@@ -363,7 +343,7 @@
       case 'idle': html='Gotowe do rzutu. Kliknij „Rzuć kośćmi”.'; break;
       case 'prep':
         if(a&&b)
-          html=`<b>Runda przygotowawcza</b>: wybierz <b>dwie różne</b> struktury i umieść je w kolumnach <b>${a}</b> i <b>${b}</b> (przy dublecie – obie w kolumnie ${a}).`;
+          html=`<b>Runda przygotowawcza</b>: wybierz <b>dwie różne</b> struktury i umieść je w kolumnach <b>${a}</b> i <b>${b}</b>.`;
         else html='<b>Runda przygotowawcza</b>: kliknij „Rzuć kośćmi”.';
         break;
       case 'build':
@@ -420,8 +400,8 @@
   function rollDice(){
     if(state.phase==='build' && state.needPlacements.length>0) return;
     if(state.round>9) return;
-    const a=1+Math.floor(Math.random()*6);
-    const b=1+Math.floor(Math.random()*6);
+    const a = 1+Math.floor(Math.random()*6);
+    const b = 1+Math.floor(Math.random()*6);
     state.dice=[a,b]; el.dieA.textContent=a; el.dieB.textContent=b;
 
     if(state.round===0){
