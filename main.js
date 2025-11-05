@@ -204,13 +204,6 @@
       }
     }
 
-    if(req && !req.any && columnHasEmpty(req.column)){
-      [...el.grid.children].forEach(node=>{
-        const col=+node.dataset?.col;
-        if(col===req.column) node.classList.add('highlight-col');
-      });
-    }
-
     const rowToHi=scoringRowCandidate();
     if(rowToHi){
       [...el.grid.children].forEach(node=>{
@@ -388,7 +381,6 @@
       el.nextLine2.style.display = 'none';
     }
   }
-
 
   function rowLabel(row){
     return row===1?'3–4':row===2?'5–6':row===3?'7':row===4?'8–9':row===5?'10–11':'?';
@@ -607,7 +599,7 @@
     el.bonusBar.style.display='block';
     updateBonusButtons();
 
-    // ⭐ podświetlenie dopóki nie wybierzesz bonusu
+    // podświetlenie dopóki nie wybierzesz bonusu
     el.bonusBar.classList.add('bonus-bar-highlight');
   }
 
